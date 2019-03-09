@@ -38,6 +38,7 @@ public class LoginServiceImpl implements LoginService {
 //            String unionId = resultJSON.getString(union_id);  // may be used later
             String loginStatus = StatusUtil.getLoginStatus(openId, sessionKey);
             List<User> users = userRepository.findByUserId(openId);
+            setDate(users);
             if(users == null || users.isEmpty()) {
                 // add user to db
                 User user = new User();
@@ -56,5 +57,13 @@ public class LoginServiceImpl implements LoginService {
         return StringUtils.isNotEmpty(value);
     }
 
+    private void setDate(List<User> users) {
+        if(users == null || users.isEmpty()) return;
+        Date date = new Date();
+        for(User user : users) {
+            if(user.getDate() == null)
+                user.setDate(date);
+        }
+    }
 
 }
