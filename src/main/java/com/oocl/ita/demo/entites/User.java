@@ -3,6 +3,7 @@ package com.oocl.ita.demo.entites;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -11,6 +12,7 @@ public class User {
 
     private Integer id;
     private String userId;
+    private Date date;
     private List<Account> accountList = new ArrayList<>();
 
     public User() {
@@ -44,5 +46,13 @@ public class User {
         this.accountList = accountList;
     }
 
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 }
 
