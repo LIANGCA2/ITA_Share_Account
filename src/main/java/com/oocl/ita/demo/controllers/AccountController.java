@@ -42,23 +42,17 @@ public class AccountController {
         return accountService.getAllUndeletedAccounts();
     }
 
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Account getAccountById(@PathVariable Integer id){
+        return accountService.getAccountById(id);
+    }
+
     @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity updateAccountById(@PathVariable Integer id, @RequestBody Account newAccount){
         if(accountService.updateAccountById(id, newAccount)){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
         throw new BadRequestException("update error");
-    }
-
-    @GetMapping(path = "/income/{date}")
-    public List<Account> getIncomeAccountsByDay(@PathVariable Date date){
-        return accountService.getIncomeAccountsByDay(date);
-
-    }
-
-    @GetMapping(path = "/expend/{date}")
-    public List<Account> getExpendAccountsByDay(@PathVariable Date date){
-        return accountService.getExpendAccountsByDay(date);
     }
 
     @GetMapping(path = "/month/{time}")

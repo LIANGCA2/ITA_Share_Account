@@ -8,7 +8,5 @@ import java.util.*;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Integer> {
-    List<Account> findAccountsByDate(Date date);
-
     List<Account> findAccountsByDateBetween(Date startDate, Date endDate);
 }

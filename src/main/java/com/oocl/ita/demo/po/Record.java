@@ -2,9 +2,17 @@ package com.oocl.ita.demo.po;
 
 public class Record {
 
+    private Integer id;
     private String type;
     private String money;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getType() {
         return type;
