@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2019-03-09 21:11:58
+Date: 2019-03-09 22:01:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,17 +33,18 @@ CREATE TABLE `account` (
   KEY `type_id` (`type_id`),
   CONSTRAINT `account_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `account_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of account
 -- ----------------------------
-INSERT INTO `account` VALUES ('1', '1', '1', '12.00', '2019-03-06', '1', '1', 'hahhah');
-INSERT INTO `account` VALUES ('2', '1', '1', '12.00', '2019-03-08', '1', '1', 'hahahah');
-INSERT INTO `account` VALUES ('3', '1', '1', '11.00', '2019-03-09', '1', '1', 'ahaha');
-INSERT INTO `account` VALUES ('4', '1', '1', '12.00', '2019-03-08', '1', '1', 'haha');
-INSERT INTO `account` VALUES ('5', '1', '1', '12.00', '2019-03-05', '1', '1', 'aha');
-INSERT INTO `account` VALUES ('6', '1', '1', '12.00', '2019-03-09', '1', '0', 'hah');
+INSERT INTO `account` VALUES ('1', '2', '1', '12.00', '2019-03-06', '1', '1', 'hahhah');
+INSERT INTO `account` VALUES ('2', '3', '1', '12.00', '2019-03-08', '1', '1', 'hahahah');
+INSERT INTO `account` VALUES ('3', '4', '1', '11.00', '2019-03-09', '1', '1', 'ahaha');
+INSERT INTO `account` VALUES ('4', '4', '1', '12.00', '2019-03-08', '1', '1', 'haha');
+INSERT INTO `account` VALUES ('5', '3', '1', '12.00', '2019-03-05', '1', '1', 'aha');
+INSERT INTO `account` VALUES ('6', '1', '1', '12.00', '2019-03-09', '1', '1', 'hah');
+INSERT INTO `account` VALUES ('7', '1', '1', '11.00', '2019-03-09', '1', '0', 'test');
 
 -- ----------------------------
 -- Table structure for `type`
@@ -55,17 +56,19 @@ CREATE TABLE `type` (
   `account_kind` varchar(255) DEFAULT NULL,
   `img_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of type
 -- ----------------------------
-INSERT INTO `type` VALUES ('1', '餐饮', '0', null);
-INSERT INTO `type` VALUES ('2', '零食', '0', null);
-INSERT INTO `type` VALUES ('3', '交通', '0', null);
-INSERT INTO `type` VALUES ('4', '工资', '1', null);
-INSERT INTO `type` VALUES ('5', '收红包', '1', null);
-INSERT INTO `type` VALUES ('6', '生活费', '1', null);
+INSERT INTO `type` VALUES ('1', '餐饮', '0', '/images/food.png');
+INSERT INTO `type` VALUES ('2', '医疗', '0', '/images/medical.png');
+INSERT INTO `type` VALUES ('3', '教育', '0', '/images/education.png');
+INSERT INTO `type` VALUES ('4', '娱乐', '0', '/images/amusement.png');
+INSERT INTO `type` VALUES ('5', '居住', '0', '/images/live.png');
+INSERT INTO `type` VALUES ('6', '其他', '0', '/images/orther.png');
+INSERT INTO `type` VALUES ('7', '购物', '0', '/images/shop.png');
+INSERT INTO `type` VALUES ('8', '交通', '0', '/images/traffic.png');
 
 -- ----------------------------
 -- Table structure for `user`
