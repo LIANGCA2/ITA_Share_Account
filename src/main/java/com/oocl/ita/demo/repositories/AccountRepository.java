@@ -10,5 +10,5 @@ import java.util.*;
 public interface AccountRepository extends JpaRepository<Account,Integer> {
     List<Account> findAccountsByDate(Date date);
 
-    List<Account> findAccountsByDateBetweenOrderByDate(Date startDate, Date endDate);
+    List<Account> findAccountsByDateBetween(Date startDate, Date endDate);
 }

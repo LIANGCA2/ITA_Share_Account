@@ -2,6 +2,7 @@ package com.oocl.ita.demo.controllers;
 
 import com.oocl.ita.demo.entites.Account;
 import com.oocl.ita.demo.exceptions.BadRequestException;
+import com.oocl.ita.demo.po.MonthOfBill;
 import com.oocl.ita.demo.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -60,9 +61,9 @@ public class AccountController {
         return accountService.getExpendAccountsByDay(date);
     }
 
-    @GetMapping(path = "/{time}")
-    public List<Account> getAccountsByMonth(@PathVariable String time){
-        return accountService.getIncomeAccountsByMonth(time);
+    @GetMapping(path = "/income/{time}")
+    public MonthOfBill getAccountsByMonth(@PathVariable String time){
+        return accountService.getAccountsByMonth(time);
 
     }
 }
