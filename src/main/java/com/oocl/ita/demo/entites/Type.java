@@ -47,7 +47,7 @@ public class Type {
 
 
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "type", fetch = FetchType.LAZY)
     public List<Account> getAccountList() {
         return accountList;
     }
