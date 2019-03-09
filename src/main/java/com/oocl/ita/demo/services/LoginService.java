@@ -15,4 +15,5 @@ public interface LoginService {
 
     String weChatLogin(String code);
     boolean checkLogin(String loginStatus);
+    String getOpenId(String loginStatus);
 }

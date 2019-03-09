@@ -57,6 +57,11 @@ public class LoginServiceImpl implements LoginService {
         return StringUtils.isNotEmpty(value);
     }
 
+    @Override
+    public String getOpenId(String loginStatus) {
+        return CacheUtil.Instance.getOpenId(loginStatus);
+    }
+
     private void setDate(List<User> users) {
         if(users == null || users.isEmpty()) return;
         Date date = new Date();

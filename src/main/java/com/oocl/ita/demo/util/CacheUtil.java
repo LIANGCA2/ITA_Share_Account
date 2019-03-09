@@ -18,6 +18,23 @@ public class CacheUtil {
     private static long lastRefreshTime = 0;
     private static long refreshInterval = 1000 * 60 * 5; //  5 min
 
+    public String getOpenId(String loginStatus) {
+        String value = sessionCache.get(loginStatus);
+        if(value == null) {
+            return null;
+        }
+        return getOpenIdFromValue(value);
+    }
+
+    private String getOpenIdFromValue(String cacheValue) {
+        try{
+            return cacheValue.split(splitter)[1];
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
     public String get(String loginStatus) {
         String value = sessionCache.get(loginStatus);
         if(value == null) {

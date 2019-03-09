@@ -1,31 +1,31 @@
 package com.oocl.ita.demo.po;
 
 public class UserInfo {
-    private Double balance;
-    private long day;
-    private long count;
+    private String balance;
+    private String days;
+    private String records;
 
-    public Double getBalance() {
+    public String getBalance() {
         return balance;
     }
 
-    public void setBalance(Double balance) {
+    public void setBalance(String balance) {
         this.balance = balance;
     }
 
-    public long getDay() {
-        return day;
+    public String getDays() {
+        return days;
     }
 
-    public void setDay(long day) {
-        this.day = day;
+    public void setDays(String days) {
+        this.days = days;
     }
 
-    public long getCount() {
-        return count;
+    public String getRecords() {
+        return records;
     }
 
-    public void setCount(long count) {
-        this.count = count;
+    public void setRecords(String records) {
+        this.records = records;
     }
 }

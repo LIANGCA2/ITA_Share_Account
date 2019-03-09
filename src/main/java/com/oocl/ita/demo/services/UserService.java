@@ -22,14 +22,15 @@ public class UserService {
         this.accountService = accountService;
     }
 
-    public UserInfo getUserInfo(int id) {
+    public UserInfo getUserInfo(String userId) {
         UserInfo userInfo = new UserInfo();
-        User user = userRepository.findById(id).orElse(null);
+        List<User> users = userRepository.findByUserId(userId);
         List<Account> accounts = accountService.getAllUndeletedAccounts();
-        if(user == null || accounts.isEmpty()) return userInfo;
+        if(users == null || users.isEmpty() || accounts.isEmpty()) return userInfo;
+        User user = users.get(0);
         long timeNow = System.currentTimeMillis();
-        userInfo.setDay((timeNow - user.getDate().getTime()) / oneDayTime);
-        userInfo.setCount(accounts.size());
+        userInfo.setDays(String.valueOf((timeNow - user.getDate().getTime()) / oneDayTime));
+        userInfo.setRecords(String.valueOf(accounts.size()));
         Double balance = 0.0;
         for(Account account : accounts) {
             if(account.isIncome()){
@@ -38,7 +39,7 @@ public class UserService {
                 balance -= account.getAmount();
             }
         }
-        userInfo.setBalance(balance);
+        userInfo.setBalance(String.format("%.2f", balance));
         return userInfo;
     }
 }
