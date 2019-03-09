@@ -34,8 +34,11 @@ public class LoginController {
             boolean isSuccess = !result.startsWith("error");
             response.setSuccess(isSuccess);
             Map<String, Object> map = new HashMap<>();
-            map.put("trd_session", isSuccess ? result : "");
-            map.put("error_msg", isSuccess ? "" : result.substring(6));
+            if(isSuccess){
+                map.put("trd_session", result);
+            }else {
+                map.put("error_msg",result.substring(6));
+            }
             response.setObj(map);
         }
         return response;
