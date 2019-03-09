@@ -4,8 +4,6 @@ import com.oocl.ita.demo.entites.Account;
 import com.oocl.ita.demo.exceptions.BadRequestException;
 import com.oocl.ita.demo.services.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
