@@ -1,5 +1,7 @@
 package com.oocl.ita.demo.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,7 @@ public class Type {
         this.accountKind = accountKind;
     }
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "type", fetch = FetchType.LAZY)
     public List<Account> getAccountList() {
         return accountList;
