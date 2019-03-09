@@ -19,6 +19,7 @@ public class Account {
     private Type type;
     private Double amount;
     private String accountKind;
+    private String isDelete;
     private Date date;
 
     @Id
@@ -76,5 +77,14 @@ public class Account {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete;
     }
 }
