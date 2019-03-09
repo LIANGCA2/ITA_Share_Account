@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("loginService")
@@ -37,10 +38,12 @@ public class LoginServiceImpl implements LoginService {
 //            String unionId = resultJSON.getString(union_id);  // may be used later
             String loginStatus = StatusUtil.getLoginStatus(openId, sessionKey);
             List<User> users = userRepository.findByUserId(openId);
+            setDate(users);
             if(users == null || users.isEmpty()) {
                 // add user to db
                 User user = new User();
                 user.setUserId(openId);
+                user.setDate(new Date());
                 userRepository.save(user);
             }
             CacheUtil.Instance.put(loginStatus, openId, sessionKey);
@@ -54,5 +57,13 @@ public class LoginServiceImpl implements LoginService {
         return StringUtils.isNotEmpty(value);
     }
 
+    private void setDate(List<User> users) {
+        if(users == null || users.isEmpty()) return;
+        Date date = new Date();
+        for(User user : users) {
+            if(user.getDate() == null)
+                user.setDate(date);
+        }
+    }
 
 }

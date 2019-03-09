@@ -1,6 +1,7 @@
 package com.oocl.ita.demo.entites;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -39,7 +40,6 @@ public class User {
         this.userId = userId;
     }
 
-
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     public List<Account> getAccountList() {
@@ -50,7 +50,7 @@ public class User {
         this.accountList = accountList;
     }
 
-
+    @Column(name = "date")
     public Date getDate() {
         return date;
     }

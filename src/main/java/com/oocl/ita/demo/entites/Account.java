@@ -96,4 +96,9 @@ public class Account {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    @Transient
+    public boolean isIncome(){
+        return "1".equals(accountKind);
+    }
 }
