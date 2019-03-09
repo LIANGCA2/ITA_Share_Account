@@ -1,5 +1,7 @@
 package com.oocl.ita.demo.entites;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
@@ -37,6 +39,8 @@ public class User {
         this.userId = userId;
     }
 
+
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     public List<Account> getAccountList() {
         return accountList;
