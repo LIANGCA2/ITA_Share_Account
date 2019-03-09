@@ -29,8 +29,8 @@ public class UserService {
         if(users == null || users.isEmpty() || accounts.isEmpty()) return userInfo;
         User user = users.get(0);
         long timeNow = System.currentTimeMillis();
-        userInfo.setDays(String.valueOf((timeNow - user.getDate().getTime()) / oneDayTime));
-        userInfo.setRecords(String.valueOf(accounts.size()));
+        userInfo.setDays(String.format("%d", (timeNow - user.getDate().getTime()) / oneDayTime));
+        userInfo.setRecords(String.format("%d", accounts.size()));
         Double balance = 0.0;
         for(Account account : accounts) {
             if(account.isIncome()){
