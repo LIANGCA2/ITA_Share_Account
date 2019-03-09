@@ -19,7 +19,8 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response wechatLogIn(@RequestParam Map<String, String> params) {
         String loginStatus = params.get("status");
         Response response = new Response();
@@ -30,7 +31,7 @@ public class LoginController {
         } else {
             String code = params.get("code");
             String result = loginService.weChatLogin(code);
-            boolean isSuccess = result.startsWith("error");
+            boolean isSuccess = !result.startsWith("error");
             response.setSuccess(isSuccess);
             Map<String, Object> map = new HashMap<>();
             map.put("login_status", isSuccess ? result : null);

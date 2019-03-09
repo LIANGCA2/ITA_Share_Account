@@ -8,16 +8,14 @@ import com.oocl.ita.demo.util.CacheUtil;
 import com.oocl.ita.demo.util.RequestUtils;
 import com.oocl.ita.demo.util.StatusUtil;
 import net.sf.json.JSONObject;
-import com.google.common.cache.CacheBuilder;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.cache.CacheManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("userService")
+@Service("loginService")
 public class LoginServiceImpl implements LoginService {
     private final UserRepository userRepository;
 

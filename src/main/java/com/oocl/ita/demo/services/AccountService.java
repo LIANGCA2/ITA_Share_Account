@@ -9,7 +9,12 @@ import java.util.*;
 
 @Service("accountService")
 public class AccountService {
-    @Autowired AccountRepository accountRepository;
+    private final AccountRepository accountRepository;
+
+    @Autowired
+    public AccountService(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
 
     public Account save(Account account) {
         return accountRepository.save(account);

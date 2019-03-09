@@ -10,6 +10,6 @@ import java.util.Optional;
 
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Integer> {
     List<User> findByUserId(String userId);
 }

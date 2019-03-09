@@ -15,8 +15,12 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/v1/accounts")
 public class AccountController {
+    private final AccountService accountService;
+
     @Autowired
-    private AccountService accountService;
+    public AccountController(AccountService accountService) {
+        this.accountService = accountService;
+    }
 
     @Transactional
     @PostMapping(path="", produces = MediaType.APPLICATION_JSON_VALUE)
