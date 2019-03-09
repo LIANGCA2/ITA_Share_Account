@@ -22,7 +22,7 @@ public class LoginController {
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public Response wechatLogIn(@RequestParam Map<String, String> params) {
-        String loginStatus = params.get("status");
+        String loginStatus = params.get("login_status");
         Response response = new Response();
         if(loginStatus != null) {
             boolean isLogin = loginService.checkLogin(loginStatus);

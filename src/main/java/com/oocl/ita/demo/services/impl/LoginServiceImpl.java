@@ -29,12 +29,12 @@ public class LoginServiceImpl implements LoginService {
     public String weChatLogin(String code) {
         String url = code2SessionUrl.replace("APPID", app_id).replace("SECRET", app_secret).replace("JSCODE", code);
         JSONObject resultJSON = JSONObject.fromObject(RequestUtils.httpRequest(url));
-        if ((int) resultJSON.getLong(error_code) > 0) {
+        if (resultJSON.get(error_code) != null && (int) resultJSON.getLong(error_code) > 0) {
             return "error" + "#" + (String) resultJSON.get(errro_message);
         } else {
             String openId = resultJSON.getString(open_id);
             String sessionKey = resultJSON.getString(session_key);
-            String unionId = resultJSON.getString(union_id);
+//            String unionId = resultJSON.getString(union_id);  // may be used later
             String loginStatus = StatusUtil.getLoginStatus(openId, sessionKey);
             List<User> users = userRepository.findByUserId(openId);
             if(users == null || users.isEmpty()) {

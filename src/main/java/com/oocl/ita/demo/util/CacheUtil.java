@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CacheUtil {
-    public static CacheUtil Instance = new CacheUtil();
+    public static final CacheUtil Instance = new CacheUtil();
     private CacheUtil(){
         lastRefreshTime = System.currentTimeMillis();
         sessionCache = new HashMap<>();
