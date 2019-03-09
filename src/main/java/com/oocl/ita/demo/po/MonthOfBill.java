@@ -1,6 +1,6 @@
 package com.oocl.ita.demo.po;
 
-import java.util.List;
+import java.util.*;
 
 public class MonthOfBill {
     private String date;
@@ -15,6 +15,9 @@ public class MonthOfBill {
     }
 
     public List<DayOfBill> getBill() {
+        if (bill == null){
+           this.bill = new ArrayList<DayOfBill>();
+        }
         return bill;
     }
 

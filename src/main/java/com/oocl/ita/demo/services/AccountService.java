@@ -86,7 +86,8 @@ public class AccountService {
             for(Account account:accounts){
                 Record record = new Record();
                 record.setType(account.getType().getType());
-                record.setMoney(account.getAccountKind().equals("1")?"+":"-"+account.getAmount());
+                record.setMoney((account.getAccountKind().equals("1")?"+":"-")+account.getAmount());
+                records.add(record);
             }
             dayOfBill.setRecords(records);
             monthOfBill.getBill().add(dayOfBill);

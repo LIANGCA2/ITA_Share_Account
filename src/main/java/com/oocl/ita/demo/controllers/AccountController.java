@@ -61,9 +61,8 @@ public class AccountController {
         return accountService.getExpendAccountsByDay(date);
     }
 
-    @GetMapping(path = "/income/{time}")
+    @GetMapping(path = "/month/{time}")
     public MonthOfBill getAccountsByMonth(@PathVariable String time){
         return accountService.getAccountsByMonth(time);
-
     }
 }
