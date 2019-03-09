@@ -13,7 +13,7 @@ public class Type {
     }
     private Integer id;
     private String type;
-    private Boolean accountKind;
+    private String accountKind;
     private List<Account> accountList = new ArrayList<>();
 
 
@@ -34,15 +34,18 @@ public class Type {
     public void setType(String type) {
         this.type = type;
     }
-
     @Column(name = "account_kind")
-    public Boolean getAccountKind() {
+    public String getAccountKind() {
         return accountKind;
     }
 
-    public void setAccountKind(Boolean accountKind) {
+    public void setAccountKind(String accountKind) {
         this.accountKind = accountKind;
     }
+
+
+
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
     public List<Account> getAccountList() {

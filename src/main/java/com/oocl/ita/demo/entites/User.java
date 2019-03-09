@@ -10,8 +10,7 @@ import java.util.List;
 public class User {
 
     private Integer id;
-    private String sessionId;
-    private ZonedDateTime createDate = ZonedDateTime.now();
+    private String userId;
     private List<Account> accountList = new ArrayList<>();
 
     public User() {
@@ -27,13 +26,13 @@ public class User {
         this.id = id;
     }
 
-    @Column(name = "session_id")
-    public String getSessionId() {
-        return sessionId;
+    @Column(name = "uid")
+    public String getUserId() {
+        return userId;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "account", fetch = FetchType.LAZY)
@@ -44,5 +43,6 @@ public class User {
     public void setAccountList(List<Account> accountList) {
         this.accountList = accountList;
     }
+
 }
 

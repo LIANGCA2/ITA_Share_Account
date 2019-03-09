@@ -17,8 +17,8 @@ public class Account {
     private Integer id;
     private User user;
     private Type type;
-    private Double account;
-    private Boolean accountKind;
+    private Double amount;
+    private String accountKind;
     private Date date;
 
     @Id
@@ -51,26 +51,28 @@ public class Account {
         this.type = type;
     }
 
-    public Double getAccount() {
-        return account;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setAccount(Double account) {
-        this.account = account;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     @Column(name = "account_kind")
-    public Boolean getAccountKind() {
+    public String getAccountKind() {
         return accountKind;
     }
 
-    public void setAccountKind(Boolean accountKind) {
+
+    public void setAccountKind(String accountKind) {
         this.accountKind = accountKind;
     }
 
     public Date getDate() {
         return date;
     }
+
 
     public void setDate(Date date) {
         this.date = date;
