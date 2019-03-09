@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2019-03-09 20:06:41
+Date: 2019-03-09 21:11:58
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -39,10 +39,10 @@ CREATE TABLE `account` (
 -- Records of account
 -- ----------------------------
 INSERT INTO `account` VALUES ('1', '1', '1', '12.00', '2019-03-06', '1', '1', 'hahhah');
-INSERT INTO `account` VALUES ('2', '1', '1', '12.00', '2019-03-08', '1', '0', 'hahahah');
-INSERT INTO `account` VALUES ('3', '1', '1', '11.00', '2019-03-09', '1', '0', 'ahaha');
-INSERT INTO `account` VALUES ('4', '1', '1', '12.00', '2019-03-08', '1', '0', 'haha');
-INSERT INTO `account` VALUES ('5', '1', '1', '12.00', '2019-03-05', '1', '0', 'aha');
+INSERT INTO `account` VALUES ('2', '1', '1', '12.00', '2019-03-08', '1', '1', 'hahahah');
+INSERT INTO `account` VALUES ('3', '1', '1', '11.00', '2019-03-09', '1', '1', 'ahaha');
+INSERT INTO `account` VALUES ('4', '1', '1', '12.00', '2019-03-08', '1', '1', 'haha');
+INSERT INTO `account` VALUES ('5', '1', '1', '12.00', '2019-03-05', '1', '1', 'aha');
 INSERT INTO `account` VALUES ('6', '1', '1', '12.00', '2019-03-09', '1', '0', 'hah');
 
 -- ----------------------------
@@ -53,18 +53,19 @@ CREATE TABLE `type` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) NOT NULL,
   `account_kind` varchar(255) DEFAULT NULL,
+  `img_url` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of type
 -- ----------------------------
-INSERT INTO `type` VALUES ('1', '餐饮', '0');
-INSERT INTO `type` VALUES ('2', '零食', '0');
-INSERT INTO `type` VALUES ('3', '交通', '0');
-INSERT INTO `type` VALUES ('4', '工资', '1');
-INSERT INTO `type` VALUES ('5', '收红包', '1');
-INSERT INTO `type` VALUES ('6', '生活费', '1');
+INSERT INTO `type` VALUES ('1', '餐饮', '0', null);
+INSERT INTO `type` VALUES ('2', '零食', '0', null);
+INSERT INTO `type` VALUES ('3', '交通', '0', null);
+INSERT INTO `type` VALUES ('4', '工资', '1', null);
+INSERT INTO `type` VALUES ('5', '收红包', '1', null);
+INSERT INTO `type` VALUES ('6', '生活费', '1', null);
 
 -- ----------------------------
 -- Table structure for `user`
