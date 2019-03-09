@@ -60,8 +60,8 @@ public class AccountController {
         return accountService.getExpendAccountsByDay(date);
     }
 
-    @GetMapping(path = "/income/{time}")
-    public List<Account> getIncomeAccountsByMonth(@PathVariable String time){
+    @GetMapping(path = "/{time}")
+    public List<Account> getAccountsByMonth(@PathVariable String time){
         return accountService.getIncomeAccountsByMonth(time);
 
     }
