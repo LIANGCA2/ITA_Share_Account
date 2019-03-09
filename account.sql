@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50527
 File Encoding         : 65001
 
-Date: 2019-03-09 12:40:23
+Date: 2019-03-09 13:01:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,6 +26,7 @@ CREATE TABLE `account` (
   `amount` double(255,2) NOT NULL,
   `acconut_kind` varchar(255) NOT NULL,
   `date` date DEFAULT NULL,
+  `isDelete` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`),
   KEY `type_id` (`type_id`),
@@ -60,8 +61,9 @@ CREATE TABLE `user` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `uid` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
+INSERT INTO `user` VALUES ('1', '2');
