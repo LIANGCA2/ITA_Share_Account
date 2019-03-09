@@ -1,70 +1,69 @@
 /*
-Navicat MySQL Data Transfer
+ Navicat Premium Data Transfer
 
-Source Server         : home
-Source Server Version : 50527
-Source Host           : localhost:3306
-Source Database       : account
+ Source Server         : account
+ Source Server Type    : MySQL
+ Source Server Version : 50527
+ Source Host           : localhost:3306
+ Source Schema         : account
 
-Target Server Type    : MYSQL
-Target Server Version : 50527
-File Encoding         : 65001
+ Target Server Type    : MySQL
+ Target Server Version : 50527
+ File Encoding         : 65001
 
-Date: 2019-03-09 15:00:48
+ Date: 09/03/2019 19:56:25
 */
 
-SET FOREIGN_KEY_CHECKS=0;
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Table structure for `account`
+-- Table structure for account
 -- ----------------------------
 DROP TABLE IF EXISTS `account`;
-CREATE TABLE `account` (
+CREATE TABLE `account`  (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `user_id` int(255) NOT NULL,
   `type_id` int(255) NOT NULL,
-  `amount` double(255,2) NOT NULL,
-  `date` date DEFAULT NULL,
-  `account_kind` varchar(255) DEFAULT NULL,
-  `is_delete` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `type_id` (`type_id`),
+  `amount` double(255, 2) NOT NULL,
+  `acconut_kind` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `date` date NULL DEFAULT NULL,
+  `isDelete` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `account_kind` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `is_delete` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `remark` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_id`(`user_id`) USING BTREE,
+  INDEX `type_id`(`type_id`) USING BTREE,
   CONSTRAINT `account_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `account_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `type` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Records of account
--- ----------------------------
-
--- ----------------------------
--- Table structure for `type`
+-- Table structure for type
 -- ----------------------------
 DROP TABLE IF EXISTS `type`;
-CREATE TABLE `type` (
+CREATE TABLE `type`  (
   `id` int(255) NOT NULL AUTO_INCREMENT,
-  `type` varchar(255) NOT NULL,
-  `account_kind` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `acconut_kind` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `account_kind` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
--- Records of type
--- ----------------------------
-INSERT INTO `type` VALUES ('1', '餐饮', null);
-
--- ----------------------------
--- Table structure for `user`
+-- Table structure for user
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user` (
+CREATE TABLE `user`  (
   `id` int(255) NOT NULL AUTO_INCREMENT,
-  `uid` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `uid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('1', '2');
+INSERT INTO `user` VALUES (1, '2');
+
+SET FOREIGN_KEY_CHECKS = 1;

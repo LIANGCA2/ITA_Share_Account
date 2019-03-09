@@ -19,6 +19,7 @@ public class Account {
     private Type type;
     private Double amount;
     private String accountKind;
+    private String remark;
     private String isDelete;
     private Date date;
 
@@ -86,5 +87,13 @@ public class Account {
 
     public void setIsDelete(String isDelete) {
         this.isDelete = isDelete;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

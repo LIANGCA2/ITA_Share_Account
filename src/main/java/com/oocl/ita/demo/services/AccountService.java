@@ -3,6 +3,7 @@ package com.oocl.ita.demo.services;
 import com.oocl.ita.demo.Utils.DateUtil;
 import com.oocl.ita.demo.entites.Account;
 import com.oocl.ita.demo.po.DayOfBill;
+import com.oocl.ita.demo.po.MonthIO;
 import com.oocl.ita.demo.po.MonthOfBill;
 import com.oocl.ita.demo.po.Record;
 import com.oocl.ita.demo.repositories.AccountRepository;
@@ -55,24 +56,19 @@ public class AccountService {
         return false;
     }
 
-    public List<Account> getIncomeAccountsByDay(Date date) {
-        return accountRepository.findAccountsByDate(date).stream()
-            .filter(account -> account.getIsDelete().equals("0") && account.getAccountKind().equals("1")).collect(Collectors.toList());
-    }
-
-    public List<Account> getExpendAccountsByDay(Date date) {
-        return accountRepository.findAccountsByDate(date).stream()
-            .filter(account -> account.getIsDelete().equals("0") && account.getAccountKind().equals("0")).collect(Collectors.toList());
-    }
-
     public MonthOfBill getAccountsByMonth(String time) {
         MonthOfBill monthOfBill = new MonthOfBill();
         monthOfBill.setDate(time);
-        Date startDate = DateUtil.getFirstDateInMonth(time);
-        Date endDate = DateUtil.getLastDateInMonth(time);
-        List<Account> accountList =
-            accountRepository.findAccountsByDateBetween(startDate, endDate).stream().filter(account -> account.getIsDelete().equals("0"))
-                .collect(Collectors.toList());
+        List<Account> accountList = getAccountsOfMonthByTime(time);
+        Double totalIncome = accountList.stream().filter(account -> account.getAccountKind().equals("1")).map(Account::getAmount)
+            .reduce(new Double(0), (a, b) -> (a + b));
+        Double totalOutlay = accountList.stream().filter(account -> account.getAccountKind().equals("0")).map(Account::getAmount)
+            .reduce(new Double(0), (a, b) -> (a + b));
+        MonthIO monthIO = new MonthIO();
+        monthIO.setIncome(totalIncome);
+        monthIO.setOutlay(totalOutlay);
+        monthIO.setBalance(totalIncome - totalOutlay);
+        monthOfBill.setMonthIO(monthIO);
         Map<String, List<Account>> billMap = getBillMap(accountList);
         for (String key : billMap.keySet()) {
             List<Account> accounts = billMap.get(key);
@@ -83,10 +79,11 @@ public class AccountService {
             dayOfBill.setOutlay(accounts.stream().filter(account -> account.getAccountKind().equals("0")).map(Account::getAmount)
                 .reduce(new Double(0), (a, b) -> a + b));
             List<Record> records = new ArrayList<>();
-            for(Account account:accounts){
+            for (Account account : accounts) {
                 Record record = new Record();
+                record.setId(account.getId());
                 record.setType(account.getType().getType());
-                record.setMoney((account.getAccountKind().equals("1")?"+":"-")+account.getAmount());
+                record.setMoney((account.getAccountKind().equals("1") ? "+" : "-") + account.getAmount());
                 records.add(record);
             }
             dayOfBill.setRecords(records);
@@ -110,5 +107,17 @@ public class AccountService {
             }
         }
         return billMap;
+    }
+
+
+    private List<Account> getAccountsOfMonthByTime(String time) {
+        Date startDate = DateUtil.getFirstDateInMonth(time);
+        Date endDate = DateUtil.getLastDateInMonth(time);
+        return accountRepository.findAccountsByDateBetween(startDate, endDate).stream().filter(account -> account.getIsDelete().equals("0"))
+            .collect(Collectors.toList());
+    }
+
+    public Account getAccountById(Integer id) {
+        return accountRepository.findById(id).orElse(null);
     }
 }

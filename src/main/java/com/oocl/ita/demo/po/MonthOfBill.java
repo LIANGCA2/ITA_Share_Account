@@ -5,6 +5,7 @@ import java.util.*;
 public class MonthOfBill {
     private String date;
     private List<DayOfBill> bill;
+    private MonthIO monthIO;
 
     public String getDate() {
         return date;
@@ -15,13 +16,24 @@ public class MonthOfBill {
     }
 
     public List<DayOfBill> getBill() {
-        if (bill == null){
+        if (this.bill == null){
            this.bill = new ArrayList<DayOfBill>();
         }
-        return bill;
+        return this.bill;
     }
 
     public void setBill(List<DayOfBill> bill) {
         this.bill = bill;
+    }
+
+    public MonthIO getMonthIO() {
+        if (this.monthIO == null){
+            this.monthIO = new MonthIO();
+        }
+        return this.monthIO;
+    }
+
+    public void setMonthIO(MonthIO monthIO) {
+        this.monthIO = monthIO;
     }
 }
