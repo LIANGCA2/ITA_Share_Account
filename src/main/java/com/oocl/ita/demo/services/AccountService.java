@@ -2,10 +2,14 @@ package com.oocl.ita.demo.services;
 
 import com.oocl.ita.demo.Utils.DateUtil;
 import com.oocl.ita.demo.entites.Account;
+import com.oocl.ita.demo.po.DayOfBill;
+import com.oocl.ita.demo.po.MonthOfBill;
+import com.oocl.ita.demo.po.Record;
 import com.oocl.ita.demo.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.*;
 import java.util.*;
 import java.util.stream.*;
 
@@ -61,11 +65,49 @@ public class AccountService {
             .filter(account -> account.getIsDelete().equals("0") && account.getAccountKind().equals("0")).collect(Collectors.toList());
     }
 
-    public List<Account> getIncomeAccountsByMonth(String time) {
+    public MonthOfBill getIncomeAccountsByMonth(String time) {
+        MonthOfBill monthOfBill = new MonthOfBill();
+        monthOfBill.setDate(time);
         Date startDate = DateUtil.getFirstDateInMonth(time);
         Date endDate = DateUtil.getLastDateInMonth(time);
-        List<Account> incomesOfMonth = accountRepository.findAccountsByDateBetweenOrderByDate(startDate, endDate).stream()
-            .filter(account -> account.getIsDelete().equals("0") && account.getAccountKind().equals("1")).collect(Collectors.toList());
-        return incomesOfMonth;
+        List<Account> accountList =
+            accountRepository.findAccountsByDateBetween(startDate, endDate).stream().filter(account -> account.getIsDelete().equals("0"))
+                .collect(Collectors.toList());
+        Map<String, List<Account>> billMap = getBillMap(accountList);
+        for (String key : billMap.keySet()) {
+            List<Account> accounts = billMap.get(key);
+            DayOfBill dayOfBill = new DayOfBill();
+            dayOfBill.setDate(key);
+            dayOfBill.setIncome(accounts.stream().filter(account -> account.getAccountKind().equals("1")).map(Account::getAmount)
+                .reduce(new Double(0), (a, b) -> a + b));
+            dayOfBill.setOutlay(accounts.stream().filter(account -> account.getAccountKind().equals("0")).map(Account::getAmount)
+                .reduce(new Double(0), (a, b) -> a + b));
+            List<Record> records = new ArrayList<>();
+            for(Account account:accounts){
+                Record record = new Record();
+                record.setType(account.getType().getType());
+                record.setMoney(account.getAccountKind().equals("1")?"+":"-"+account.getAmount());
+            }
+            dayOfBill.setRecords(records);
+            monthOfBill.getBill().add(dayOfBill);
+        }
+        return monthOfBill;
+    }
+
+    private Map<String, List<Account>> getBillMap(List<Account> accountList) {
+        Map<String, List<Account>> billMap = new TreeMap<>();
+        for (Account account : accountList) {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM月dd日");
+            String key = simpleDateFormat.format(account.getDate());
+
+            if (billMap.containsKey(key)) {
+                billMap.get(key).add(account);
+            } else {
+                List<Account> accounts = new ArrayList<>();
+                accounts.add(account);
+                billMap.put(key, accounts);
+            }
+        }
+        return billMap;
     }
 }
