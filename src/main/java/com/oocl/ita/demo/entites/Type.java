@@ -43,10 +43,6 @@ public class Type {
         this.accountKind = accountKind;
     }
 
-
-
-
-
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "type", fetch = FetchType.LAZY)
     public List<Account> getAccountList() {
         return accountList;
