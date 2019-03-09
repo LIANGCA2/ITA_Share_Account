@@ -13,6 +13,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service("loginService")
@@ -41,6 +42,7 @@ public class LoginServiceImpl implements LoginService {
                 // add user to db
                 User user = new User();
                 user.setUserId(openId);
+                user.setDate(new Date());
                 userRepository.save(user);
             }
             CacheUtil.Instance.put(loginStatus, openId, sessionKey);
