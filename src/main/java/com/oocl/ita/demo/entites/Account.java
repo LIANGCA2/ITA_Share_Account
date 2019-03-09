@@ -13,6 +13,10 @@ public class Account {
     }
 
     private Integer id;
+    private User user;
+    private Type type;
+    private Double account;
+    private Boolean
 
 
 }
