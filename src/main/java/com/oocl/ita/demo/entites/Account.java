@@ -31,7 +31,7 @@ public class Account {
     public void setId(Integer id) {
         this.id = id;
     }
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     public User getUser() {
@@ -41,7 +41,7 @@ public class Account {
     public void setUser(User user) {
         this.user = user;
     }
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "type_id")
     public Type getType() {

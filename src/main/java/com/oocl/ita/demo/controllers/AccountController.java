@@ -38,8 +38,7 @@ public class AccountController {
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Account> getAccounts(){
-        List<Account> accounts = accountService.getAllAccounts();
-        return accounts;
+        return accountService.getAllUndeletedAccounts();
     }
 
     @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -50,4 +49,20 @@ public class AccountController {
         throw new BadRequestException("update error");
     }
 
+    @GetMapping(path = "/income/{date}")
+    public List<Account> getIncomeAccountsByDay(@PathVariable Date date){
+        return accountService.getIncomeAccountsByDay(date);
+
+    }
+
+    @GetMapping(path = "/expend/{date}")
+    public List<Account> getExpendAccountsByDay(@PathVariable Date date){
+        return accountService.getExpendAccountsByDay(date);
+    }
+
+    @GetMapping(path = "/income/{time}")
+    public List<Account> getIncomeAccountsByMonth(@PathVariable String time){
+        return accountService.getIncomeAccountsByMonth(time);
+
+    }
 }
