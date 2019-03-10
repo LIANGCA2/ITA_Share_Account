@@ -4,6 +4,7 @@ import com.oocl.ita.demo.entites.Account;
 import com.oocl.ita.demo.entites.User;
 import com.oocl.ita.demo.po.UserInfo;
 import com.oocl.ita.demo.repositories.UserRepository;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,19 @@ public class UserService {
         }
         userInfo.setBalance(String.format("%.2f", balance));
         return userInfo;
+    }
+
+    public void updateUserInfo(String userId, User user) {
+        List<User> users = userRepository.findByUserId(userId);
+        if(users == null || users.isEmpty()) return;
+        User userInDb = users.get(0);
+        String gender = user.getGender();
+        if(StringUtils.isNotEmpty(gender)) {
+            gender = gender.equals("1") ? "male" : "female";
+        }
+        userInDb.setGender(gender);
+        userInDb.setImage(user.getImage());
+        userInDb.setNickName(user.getNickName());
+        userRepository.save(userInDb);
     }
 }
