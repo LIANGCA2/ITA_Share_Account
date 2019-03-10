@@ -1,4 +1,4 @@
-package com.oocl.ita.demo.Utils;
+package com.oocl.ita.demo.util;
 
 import java.util.*;
 
