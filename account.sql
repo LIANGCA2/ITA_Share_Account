@@ -78,6 +78,9 @@ CREATE TABLE `user` (
   `id` int(255) NOT NULL AUTO_INCREMENT,
   `uid` varchar(255) NOT NULL,
   `date` datetime NOT NULL,
+  `nick_name` varchar (255),
+  `gender` varchar (255),
+  `url` varchar (255),
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
