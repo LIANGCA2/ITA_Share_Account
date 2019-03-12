@@ -1,6 +1,6 @@
 package com.oocl.ita.demo.po;
 
-import java.util.List;
+import java.util.*;
 
 public class DayOfBill {
 
@@ -34,6 +34,9 @@ public class DayOfBill {
     }
 
     public List<Record> getRecords() {
+        if (this.records == null) {
+            this.records = new ArrayList<Record>();
+        }
         return records;
     }
 
