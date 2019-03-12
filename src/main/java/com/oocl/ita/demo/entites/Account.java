@@ -1,6 +1,7 @@
 package com.oocl.ita.demo.entites;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -21,6 +22,8 @@ public class Account {
     private String accountKind;
     private String remark;
     private String isDelete;
+
+    @JsonFormat(timezone = "GMT+8", pattern = "YYYY-MM-DD hh:mm:ss")
     private Date date;
 
     @Id
