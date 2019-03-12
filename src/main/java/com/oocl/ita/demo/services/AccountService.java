@@ -1,5 +1,7 @@
 package com.oocl.ita.demo.services;
 
+import com.oocl.ita.demo.entites.Type;
+import com.oocl.ita.demo.entites.User;
 import com.oocl.ita.demo.util.DateUtil;
 import com.oocl.ita.demo.entites.Account;
 import com.oocl.ita.demo.po.DayOfBill;
@@ -17,15 +19,23 @@ import java.util.stream.*;
 @Service("accountService")
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final TypeService typeService;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, TypeService typeService) {
         this.accountRepository = accountRepository;
+        this.typeService = typeService;
     }
 
-    public Account save(Account account) {
+    public void save(Account account, User user) {
+        Type type = typeService.findTypeByTypeName(account.getType().getType());
+        if(type == null) {
+            typeService.save(account.getType());
+        } else account.setType(type);
+        account.setUser(user);
         account.setDate(new Date());
-        return accountRepository.save(account);
+        account.setIsDelete("0");
+        accountRepository.save(account);
     }
 
     public boolean deleteAccount(Integer id) {
@@ -46,20 +56,20 @@ public class AccountService {
         Account oldAccount = accountRepository.findById(id).orElse(null);
         if (null != oldAccount) {
             oldAccount.setIsDelete("0");
-            oldAccount.setAccountKind(newAccount.getAccountKind());
             oldAccount.setAmount(newAccount.getAmount());
-            oldAccount.setDate(new Date());
-            oldAccount.setType(newAccount.getType());
+            oldAccount.setDate(newAccount.getDate());
+            oldAccount.setType(typeService.findTypeByTypeName(newAccount.getType().getType()));
+            oldAccount.setRemark(newAccount.getRemark());
             accountRepository.save(oldAccount);
             return true;
         }
         return false;
     }
 
-    public MonthOfBill getAccountsByMonth(String time) {
+    public MonthOfBill getAccountsByMonth(String time, User user) {
         MonthOfBill monthOfBill = new MonthOfBill();
         monthOfBill.setDate(time);
-        List<Account> accountList = getAccountsOfMonthByTime(time);
+        List<Account> accountList = getAccountsOfMonthByTime(time, user);
         Double totalIncome = accountList.stream().filter(account -> account.getAccountKind().equals("1")).map(Account::getAmount)
             .reduce(new Double(0), (a, b) -> (a + b));
         Double totalOutlay = accountList.stream().filter(account -> account.getAccountKind().equals("0")).map(Account::getAmount)
@@ -110,10 +120,10 @@ public class AccountService {
     }
 
 
-    private List<Account> getAccountsOfMonthByTime(String time) {
+    private List<Account> getAccountsOfMonthByTime(String time, User user) {
         Date startDate = DateUtil.getFirstDateInMonth(time);
         Date endDate = DateUtil.getLastDateInMonth(time);
-        return accountRepository.findAccountsByDateBetween(startDate, endDate).stream().filter(account -> account.getIsDelete().equals("0"))
+        return accountRepository.findAllByUserAndDateBetween(user, startDate, endDate).stream().filter(account -> account.getIsDelete().equals("0"))
             .collect(Collectors.toList());
     }
 
