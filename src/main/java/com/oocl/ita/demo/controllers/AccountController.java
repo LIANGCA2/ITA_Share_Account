@@ -30,10 +30,13 @@ public class AccountController {
         this.userService = userService;
     }
 
-    @Transactional
     @PostMapping(path="", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Account addAccount(@RequestBody Account account) {
-        return accountService.save(account);
+    public ResponseEntity addAccount(@RequestBody Account account, @RequestParam String trd_session) {
+        String openId = loginService.getOpenId(trd_session);
+        User user = userService.findUserByUserId(openId);
+        if(user == null) return ResponseEntity.badRequest().build();
+        accountService.save(account, user);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

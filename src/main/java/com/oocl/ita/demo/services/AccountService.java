@@ -1,5 +1,6 @@
 package com.oocl.ita.demo.services;
 
+import com.oocl.ita.demo.entites.Type;
 import com.oocl.ita.demo.entites.User;
 import com.oocl.ita.demo.util.DateUtil;
 import com.oocl.ita.demo.entites.Account;
@@ -18,15 +19,23 @@ import java.util.stream.*;
 @Service("accountService")
 public class AccountService {
     private final AccountRepository accountRepository;
+    private final TypeService typeService;
 
     @Autowired
-    public AccountService(AccountRepository accountRepository) {
+    public AccountService(AccountRepository accountRepository, TypeService typeService) {
         this.accountRepository = accountRepository;
+        this.typeService = typeService;
     }
 
-    public Account save(Account account) {
+    public void save(Account account, User user) {
+        Type type = typeService.findTypeByTypeName(account.getType().getType());
+        if(type == null) {
+            typeService.save(account.getType());
+        } else account.setType(type);
+        account.setUser(user);
         account.setDate(new Date());
-        return accountRepository.save(account);
+        account.setIsDelete("0");
+        accountRepository.save(account);
     }
 
     public boolean deleteAccount(Integer id) {
