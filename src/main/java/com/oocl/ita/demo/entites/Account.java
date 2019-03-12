@@ -3,8 +3,10 @@ package com.oocl.ita.demo.entites;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.commons.lang.StringUtils;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Entity
@@ -23,7 +25,7 @@ public class Account {
     private String remark;
     private String isDelete;
 
-    @JsonFormat(timezone = "GMT+8", pattern = "YYYY-MM-DD hh:mm:ss")
+    @JsonFormat(timezone = "GMT+8", pattern = "YYYY-MM-dd HH:mm:ss")
     private Date date;
 
     @Id
@@ -103,5 +105,20 @@ public class Account {
     @Transient
     public boolean isIncome(){
         return "1".equals(accountKind);
+    }
+
+    @Transient
+    private String dateStr;
+
+    public String getDateStr(){
+        if(StringUtils.isEmpty(dateStr)){
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dateStr = simpleDateFormat.format(date);
+        }
+        return dateStr;
+    }
+
+    public void setDateStr(String dateStr) {
+        this.dateStr = dateStr;
     }
 }

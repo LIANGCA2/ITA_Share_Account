@@ -58,7 +58,8 @@ public class AccountService {
         if (null != oldAccount) {
             oldAccount.setIsDelete("0");
             oldAccount.setAmount(newAccount.getAmount());
-            oldAccount.setDate(newAccount.getDate());
+            setDate(oldAccount, newAccount);
+//            oldAccount.setDate(newAccount.getDate());
             oldAccount.setType(typeService.findTypeByTypeName(newAccount.getType().getType()));
             oldAccount.setRemark(newAccount.getRemark());
             accountRepository.save(oldAccount);
@@ -67,13 +68,26 @@ public class AccountService {
         return false;
     }
 
+    private void setDate(Account oldAccount, Account newAccount) {
+        try{
+            if(newAccount.getDateStr() != null) {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                oldAccount.setDate(simpleDateFormat.parse(newAccount.getDateStr()));
+//                oldAccount.setDateStr(newAccount.getDateStr());
+                oldAccount.setDateStr(null);
+            } else oldAccount.setDate(newAccount.getDate());
+        }catch (Exception e) {
+            oldAccount.setDate(newAccount.getDate());
+        }
+    }
+
     public MonthOfBill getAccountsByMonth(String time, User user) {
         MonthOfBill monthOfBill = new MonthOfBill();
         monthOfBill.setDate(time);
         List<Account> accountList = getAccountsOfMonthByTime(time, user);
-        Double totalIncome = accountList.stream().filter(account -> account.getAccountKind().equals("1")).map(Account::getAmount)
+        Double totalIncome = accountList.stream().filter(account -> account.getType().getAccountKind().equals("income")).map(Account::getAmount)
             .reduce(new Double(0), (a, b) -> (a + b));
-        Double totalOutlay = accountList.stream().filter(account -> account.getAccountKind().equals("0")).map(Account::getAmount)
+        Double totalOutlay = accountList.stream().filter(account -> account.getType().getAccountKind().equals("outlay")).map(Account::getAmount)
             .reduce(new Double(0), (a, b) -> (a + b));
         MonthIO monthIO = new MonthIO();
         monthIO.setIncome(totalIncome);

@@ -49,7 +49,11 @@ public class AccountController {
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Account> getAccounts(){
-        return accountService.getAllUndeletedAccounts();
+        List<Account> accounts = accountService.getAllUndeletedAccounts();
+        for(Account account : accounts) {
+            account.getUser().setUserId(null);
+        }
+        return accounts;
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
