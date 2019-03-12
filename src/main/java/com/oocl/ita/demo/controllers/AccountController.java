@@ -51,7 +51,8 @@ public class AccountController {
     public List<Account> getAccounts(){
         List<Account> accounts = accountService.getAllUndeletedAccounts();
         for(Account account : accounts) {
-            account.getUser().setUserId(null);
+            if(account.getUser() != null)
+                account.getUser().setUserId(null);
         }
         return accounts;
     }
