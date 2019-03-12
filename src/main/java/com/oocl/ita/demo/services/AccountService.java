@@ -12,6 +12,7 @@ import com.oocl.ita.demo.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.rmi.CORBA.Util;
 import java.text.*;
 import java.util.*;
 import java.util.stream.*;
@@ -33,7 +34,8 @@ public class AccountService {
             typeService.save(account.getType());
         } else account.setType(type);
         account.setUser(user);
-        account.setDate(new Date());
+        account.setDate(DateUtil.getDateFromString(account.getDateStr()));
+        account.setDateStr(null);
         account.setIsDelete("0");
         accountRepository.save(account);
     }
@@ -71,9 +73,7 @@ public class AccountService {
     private void setDate(Account oldAccount, Account newAccount) {
         try{
             if(newAccount.getDateStr() != null) {
-                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                oldAccount.setDate(simpleDateFormat.parse(newAccount.getDateStr()));
-//                oldAccount.setDateStr(newAccount.getDateStr());
+                oldAccount.setDate(DateUtil.getDateFromString(newAccount.getDateStr()));
                 oldAccount.setDateStr(null);
             } else oldAccount.setDate(newAccount.getDate());
         }catch (Exception e) {

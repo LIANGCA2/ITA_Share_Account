@@ -1,5 +1,6 @@
 package com.oocl.ita.demo.util;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class DateUtil {
@@ -24,5 +25,15 @@ public class DateUtil {
             return calendar.getTime();
         }
         return null;
+    }
+
+    public static Date getDateFromString(String dateStr) {
+        try{
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            return simpleDateFormat.parse(dateStr);
+        } catch (Exception e){
+            e.printStackTrace();
+            return new Date();
+        }
     }
 }

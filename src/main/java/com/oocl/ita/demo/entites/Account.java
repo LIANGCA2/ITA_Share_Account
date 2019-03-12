@@ -111,7 +111,7 @@ public class Account {
     private String dateStr;
 
     public String getDateStr(){
-        if(StringUtils.isEmpty(dateStr)){
+        if(StringUtils.isEmpty(dateStr) && date != null){
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             dateStr = simpleDateFormat.format(date);
         }
