@@ -32,7 +32,7 @@ public class UserService {
         User user = users.get(0);
         List<Account> userAccounts = accounts.stream().filter( account -> account.getUser().getUserId().equals(userId)).collect(Collectors.toList());
         long timeNow = System.currentTimeMillis();
-        userInfo.setDays(String.format("%d", (timeNow - user.getDate().getTime()) / oneDayTime));
+        userInfo.setDays(String.format("%d", (timeNow - user.getDate().getTime() + 1) / oneDayTime));
         userInfo.setRecords(String.format("%d", userAccounts.size()));
         Double balance = 0.0;
         for(Account account : userAccounts) {
