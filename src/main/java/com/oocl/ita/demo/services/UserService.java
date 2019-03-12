@@ -59,4 +59,11 @@ public class UserService {
         userInDb.setNickName(user.getNickName());
         userRepository.save(userInDb);
     }
+
+    public User findUserByUserId(String userId) {
+        if(userId == null) return null;
+        List<User> users = userRepository.findByUserId(userId);
+        if(users == null || users.isEmpty()) return null;
+        return users.get(0);
+    }
 }

@@ -1,5 +1,6 @@
 package com.oocl.ita.demo.services;
 
+import com.oocl.ita.demo.entites.User;
 import com.oocl.ita.demo.util.DateUtil;
 import com.oocl.ita.demo.entites.Account;
 import com.oocl.ita.demo.po.DayOfBill;
@@ -56,10 +57,10 @@ public class AccountService {
         return false;
     }
 
-    public MonthOfBill getAccountsByMonth(String time) {
+    public MonthOfBill getAccountsByMonth(String time, User user) {
         MonthOfBill monthOfBill = new MonthOfBill();
         monthOfBill.setDate(time);
-        List<Account> accountList = getAccountsOfMonthByTime(time);
+        List<Account> accountList = getAccountsOfMonthByTime(time, user);
         Double totalIncome = accountList.stream().filter(account -> account.getAccountKind().equals("1")).map(Account::getAmount)
             .reduce(new Double(0), (a, b) -> (a + b));
         Double totalOutlay = accountList.stream().filter(account -> account.getAccountKind().equals("0")).map(Account::getAmount)
@@ -110,10 +111,10 @@ public class AccountService {
     }
 
 
-    private List<Account> getAccountsOfMonthByTime(String time) {
+    private List<Account> getAccountsOfMonthByTime(String time, User user) {
         Date startDate = DateUtil.getFirstDateInMonth(time);
         Date endDate = DateUtil.getLastDateInMonth(time);
-        return accountRepository.findAccountsByDateBetween(startDate, endDate).stream().filter(account -> account.getIsDelete().equals("0"))
+        return accountRepository.findAllByUserAndDateBetween(user, startDate, endDate).stream().filter(account -> account.getIsDelete().equals("0"))
             .collect(Collectors.toList());
     }
 

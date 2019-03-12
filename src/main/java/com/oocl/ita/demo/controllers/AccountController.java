@@ -1,9 +1,12 @@
 package com.oocl.ita.demo.controllers;
 
 import com.oocl.ita.demo.entites.Account;
+import com.oocl.ita.demo.entites.User;
 import com.oocl.ita.demo.exceptions.BadRequestException;
 import com.oocl.ita.demo.po.MonthOfBill;
 import com.oocl.ita.demo.services.AccountService;
+import com.oocl.ita.demo.services.LoginService;
+import com.oocl.ita.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -17,10 +20,14 @@ import java.util.*;
 @RequestMapping("/api/v1/accounts")
 public class AccountController {
     private final AccountService accountService;
+    private final LoginService loginService;
+    private final UserService userService;
 
     @Autowired
-    public AccountController(AccountService accountService) {
+    public AccountController(AccountService accountService, LoginService loginService, UserService userService) {
         this.accountService = accountService;
+        this.loginService = loginService;
+        this.userService = userService;
     }
 
     @Transactional
@@ -56,7 +63,14 @@ public class AccountController {
     }
 
     @GetMapping(path = "/month/{time}")
-    public MonthOfBill getAccountsByMonth(@PathVariable String time){
-        return accountService.getAccountsByMonth(time);
+    public ResponseEntity<MonthOfBill> getAccountsByMonth(@PathVariable String time, @RequestParam String trd_session){
+        HttpStatus httpStatus = HttpStatus.OK;
+        String openId = loginService.getOpenId(trd_session);
+        User user = userService.findUserByUserId(openId);
+        if(user == null){
+            return ResponseEntity.badRequest().body(new MonthOfBill());
+        }
+        MonthOfBill monthOfBill = accountService.getAccountsByMonth(time, user);
+        return new ResponseEntity<>(monthOfBill, httpStatus);
     }
 }
