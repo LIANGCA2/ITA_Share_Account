@@ -56,10 +56,10 @@ public class AccountService {
         Account oldAccount = accountRepository.findById(id).orElse(null);
         if (null != oldAccount) {
             oldAccount.setIsDelete("0");
-            oldAccount.setAccountKind(newAccount.getAccountKind());
             oldAccount.setAmount(newAccount.getAmount());
-            oldAccount.setDate(new Date());
-            oldAccount.setType(newAccount.getType());
+            oldAccount.setDate(newAccount.getDate());
+            oldAccount.setType(typeService.findTypeByTypeName(newAccount.getType().getType()));
+            oldAccount.setRemark(newAccount.getRemark());
             accountRepository.save(oldAccount);
             return true;
         }

@@ -57,8 +57,11 @@ public class AccountController {
         return accountService.getAccountById(id);
     }
 
-    @PatchMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updateAccountById(@PathVariable Integer id, @RequestBody Account newAccount){
+    @PostMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateAccountById(@PathVariable Integer id, @RequestBody Account newAccount, @RequestParam String trd_session){
+        String openId = loginService.getOpenId(trd_session);
+        User user = userService.findUserByUserId(openId);
+        if(user == null) return ResponseEntity.badRequest().build();
         if(accountService.updateAccountById(id, newAccount)){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
