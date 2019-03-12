@@ -9,10 +9,7 @@ import com.oocl.ita.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -33,12 +30,12 @@ public class TypeController {
 
     @GetMapping(path = "/income")
     public List<Type> getAllIncomeTypes(){
-        return typeService.getAllTypes("1");
+        return typeService.getAllTypes("income");
     }
 
     @GetMapping(path = "/outlay")
     public List<Type> getAllOutlayTypes(){
-        return typeService.getAllTypes("0");
+        return typeService.getAllTypes("outlay");
     }
 
     @GetMapping(path = "")
@@ -51,5 +48,11 @@ public class TypeController {
         }
         List<String> types = typeService.getAllTypes(null).stream().map(Type::getType).collect(Collectors.toList());
         return ResponseEntity.ok(types);
+    }
+
+    @PostMapping(path = "")
+    public ResponseEntity addType(@RequestBody Type type) {
+        typeService.save(type);
+        return ResponseEntity.ok().build();
     }
 }
