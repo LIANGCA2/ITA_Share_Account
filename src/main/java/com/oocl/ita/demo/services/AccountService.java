@@ -49,7 +49,8 @@ public class AccountService {
     }
 
     public List<Account> getAllUndeletedAccounts() {
-        return accountRepository.findAll().stream().filter(account -> account.getIsDelete().equals("0")).collect(Collectors.toList());
+        List<Account> allAccounts = accountRepository.findAll();
+        return allAccounts.stream().filter(account -> account.getIsDelete().equals("0")).collect(Collectors.toList());
     }
 
     public boolean updateAccountById(Integer id, Account newAccount) {
