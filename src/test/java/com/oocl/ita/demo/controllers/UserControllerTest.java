@@ -83,7 +83,7 @@ public class UserControllerTest {
         //Given
         String trd_session = "test";
         User user = new User();
-        Map map = Maps.newHashMap("",user);
+        Map<String, User> map = Maps.newHashMap("",user);
         String requestJson = JSONObject.toJSONString(map);
         String open_id = "user id";
         when(loginService.getOpenId(trd_session)).thenReturn(open_id);
@@ -101,7 +101,7 @@ public class UserControllerTest {
         //Given
         String trd_session = "";
         User user = new User();
-        Map map = Maps.newHashMap("",user);
+        Map<String, User> map = Maps.newHashMap("",user);
         String requestJson = JSONObject.toJSONString(map);
         String open_id = "user id";
         when(loginService.getOpenId(trd_session)).thenReturn(null);

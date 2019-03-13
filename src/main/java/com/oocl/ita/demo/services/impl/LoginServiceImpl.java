@@ -1,11 +1,10 @@
 package com.oocl.ita.demo.services.impl;
 
 import com.oocl.ita.demo.entites.User;
-import com.oocl.ita.demo.repositories.AccountRepository;
 import com.oocl.ita.demo.repositories.UserRepository;
 import com.oocl.ita.demo.services.LoginService;
 import com.oocl.ita.demo.util.CacheUtil;
-import com.oocl.ita.demo.util.RequestUtils;
+import com.oocl.ita.demo.util.RestRequestUtil;
 import com.oocl.ita.demo.util.StatusUtil;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
@@ -29,9 +28,9 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public String weChatLogin(String code) {
         String url = code2SessionUrl.replace("APPID", app_id).replace("SECRET", app_secret).replace("JSCODE", code);
-        JSONObject resultJSON = JSONObject.fromObject(RequestUtils.httpRequest(url));
+        JSONObject resultJSON = JSONObject.fromObject(RestRequestUtil.get(url));
         if (resultJSON.get(error_code) != null && (int) resultJSON.getLong(error_code) > 0) {
-            return "error" + "#" + (String) resultJSON.get(errro_message);
+            return "error" + "#" + resultJSON.get(errro_message);
         } else {
             String openId = resultJSON.getString(open_id);
             String sessionKey = resultJSON.getString(session_key);
