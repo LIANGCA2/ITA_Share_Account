@@ -99,16 +99,16 @@ public class AccountService {
             List<Account> accounts = billMap.get(key);
             DayOfBill dayOfBill = new DayOfBill();
             dayOfBill.setDate(key);
-            dayOfBill.setIncome(accounts.stream().filter(account -> account.getAccountKind().equals("1")).map(Account::getAmount)
+            dayOfBill.setIncome(accounts.stream().filter(account -> account.getType().getAccountKind().equals("income")).map(Account::getAmount)
                 .reduce(new Double(0), (a, b) -> a + b));
-            dayOfBill.setOutlay(accounts.stream().filter(account -> account.getAccountKind().equals("0")).map(Account::getAmount)
+            dayOfBill.setOutlay(accounts.stream().filter(account -> account.getType().getAccountKind().equals("outlay")).map(Account::getAmount)
                 .reduce(new Double(0), (a, b) -> a + b));
             List<Record> records = new ArrayList<>();
             for (Account account : accounts) {
                 Record record = new Record();
                 record.setId(account.getId());
                 record.setType(account.getType().getType());
-                record.setMoney((account.getAccountKind().equals("1") ? "+" : "-") + account.getAmount());
+                record.setMoney((account.getType().getAccountKind().equals("income") ? "+" : "-") + account.getAmount());
                 records.add(record);
             }
             dayOfBill.setRecords(records);

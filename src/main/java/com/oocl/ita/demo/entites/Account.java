@@ -104,7 +104,7 @@ public class Account {
 
     @Transient
     public boolean isIncome(){
-        return "1".equals(accountKind);
+        return type.getAccountKind().equals("income");
     }
 
     @Transient
