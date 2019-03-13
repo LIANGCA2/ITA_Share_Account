@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 
 import java.text.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.oocl.ita.demo.factory.AccountFactory.mockAccount;
 import static com.oocl.ita.demo.factory.AccountFactory.mockAccountCreateDate;
@@ -26,8 +27,8 @@ public class AccountServiceTest {
     @Test
     public void should_return_all_undeleted_accounts_when_call_getAllUndeletedAccounts() throws ParseException {
         new Expectations(){{
-            accountRepository.findAll();
-            result = mockAccountList();
+            accountRepository.findAllByIsDelete("0");
+            result = mockAccountList().stream().filter(account -> account.getIsDelete().equals("0")).collect(Collectors.toList());
         }};
 
         List<Account> allUndeletedAccounts = accountService.getAllUndeletedAccounts();
@@ -54,7 +55,7 @@ public class AccountServiceTest {
         assertEquals(new Double(2000), accountsByMonth.getBill().get(1).getIncome());
     }
 
-    private List<Account> mockAccountList() throws ParseException {
+    public static List<Account> mockAccountList() throws ParseException {
         Account account1 = mockAccount(1, "income", "收红包", mockAccountCreateDate("2019-03-09"), 12.0, "0", "Test1");
         Account account2 = mockAccount(2, "outlay", "餐饮", mockAccountCreateDate("2019-03-12"), 10.0, "1", "Test2");
         Account account3 = mockAccount(3, "outlay", "购物", mockAccountCreateDate("2019-03-11"), 50.0, "0", "Test3");

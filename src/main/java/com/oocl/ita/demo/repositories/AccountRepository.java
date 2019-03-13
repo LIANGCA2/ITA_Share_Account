@@ -11,4 +11,5 @@ import java.util.*;
 public interface AccountRepository extends JpaRepository<Account,Integer> {
     List<Account> findAccountsByDateBetween(Date startDate, Date endDate);
     List<Account> findAllByUserAndDateBetween(User user, Date startDate, Date endDate);
+    List<Account> findAllByIsDelete(String deleted);
 }

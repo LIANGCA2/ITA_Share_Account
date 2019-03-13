@@ -30,7 +30,7 @@ public class UserService {
         List<Account> accounts = accountService.getAllUndeletedAccounts();
         if(users == null || users.isEmpty() || accounts.isEmpty()) return userInfo;
         User user = users.get(0);
-        List<Account> userAccounts = accounts.stream().filter( account -> account.getUser().getUserId().equals(userId)).collect(Collectors.toList());
+        List<Account> userAccounts = accounts.stream().filter( account -> account.getUser().equals(user)).collect(Collectors.toList());
         long timeNow = System.currentTimeMillis();
         userInfo.setDays(String.format("%d", (timeNow - user.getDate().getTime() + 1) / oneDayTime));
         userInfo.setRecords(String.format("%d", userAccounts.size()));
