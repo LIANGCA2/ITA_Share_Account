@@ -138,7 +138,8 @@ public class AccountService {
     private List<Account> getAccountsOfMonthByTime(String time, User user) {
         Date startDate = DateUtil.getFirstDateInMonth(time);
         Date endDate = DateUtil.getLastDateInMonth(time);
-        return accountRepository.findAllByUserAndDateBetween(user, startDate, endDate).stream().filter(account -> account.getIsDelete().equals("0"))
+        List<Account> accounts = accountRepository.findAllByUserAndDateBetween(user, startDate, endDate);
+        return  accounts.stream().filter(account -> account.getIsDelete().equals("0"))
             .collect(Collectors.toList());
     }
 
