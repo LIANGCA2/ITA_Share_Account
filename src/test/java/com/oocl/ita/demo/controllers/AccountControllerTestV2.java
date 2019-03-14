@@ -12,6 +12,7 @@ import com.oocl.ita.demo.services.LoginService;
 import com.oocl.ita.demo.services.UserService;
 import net.minidev.json.JSONObject;
 import org.assertj.core.util.Maps;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,11 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 
+import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.Matchers.is;
@@ -98,9 +102,77 @@ public class AccountControllerTestV2 {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void should_return_null_when_call_getAccountById_given_not_exist_id() throws Exception{
+        //given
+        Integer id = 2;
+        when(accountService.getAccountById(id)).thenReturn(null);
+        //when
+        //then
+        mockMvc.perform(get("/api/v1/accounts/" + id).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void should_return_badRequest_when_call_updateAccountById_given_not_exist_trd_session() throws Exception{
+        //given
+        Integer id = 2;
+        String trd_session = "error_test";
+        String openId = null;
+        Account account =AccountFactory.mockAccount(1,"1","1",new Date(),2.00,"0","");
+        when(loginService.getOpenId(trd_session)).thenReturn(null);
+        when(userService.findUserByUserId(openId)).thenReturn(null);
+        Map map = Maps.newHashMap("",account);
+        //when
+        //then
+        mockMvc.perform(post("/api/v1/accounts/" + id + "?trd_session=" + trd_session).content(JSONObject.toJSONString(map)).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void should_return_noContent_when_call_updateAccountById_given_correct_param() throws Exception{
+        //given
+        Integer id = 2;
+        String trd_session = "error_test";
+        String openId = null;
+        User user = mock(User.class);
+        Account account =AccountFactory.mockAccount(1,"1","1",new Date(),2.00,"0","");
+
+        when(loginService.getOpenId(trd_session)).thenReturn(null);
+        when(userService.findUserByUserId(openId)).thenReturn(user);
+        Map map = Maps.newHashMap("",account);
+        when(accountService.updateAccountById(anyInt(), any())).thenReturn(true);
 
 
+        //when
+        //then
+        mockMvc.perform(post("/api/v1/accounts/" + id + "?trd_session=" + trd_session).content(JSONObject.toJSONString(map)).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void should_return_exception_when_call_updateAccountById_given_incorrect_param() throws Exception{
+        //given
+        Integer id = 2;
+        String trd_session = "error_test";
+        String openId = null;
+        User user = mock(User.class);
+        Account account =AccountFactory.mockAccount(1,"1","1",new Date(),2.00,"0","");
+
+        when(loginService.getOpenId(trd_session)).thenReturn(null);
+        when(userService.findUserByUserId(openId)).thenReturn(user);
+        Map map = Maps.newHashMap("",account);
+        when(accountService.updateAccountById(anyInt(), any())).thenReturn(false);
 
 
+        //when
+        //then
+        mockMvc.perform(post("/api/v1/accounts/" + id + "?trd_session=" + trd_session).content(JSONObject.toJSONString(map)).contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
 
 }
