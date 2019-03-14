@@ -8,6 +8,7 @@ import com.oocl.ita.demo.po.UserInfo;
 import com.oocl.ita.demo.repositories.AccountRepository;
 import com.oocl.ita.demo.repositories.TypeRepository;
 import com.oocl.ita.demo.repositories.UserRepository;
+import mockit.Tested;
 import org.assertj.core.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +23,10 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -89,5 +93,40 @@ public class AccountServiceTestV2 {
         verify(accountRepository, times(0)).save(any());
     }
 
-    
+    @Test
+    public void should_test_updateAccountById_given_null() {
+        //Given
+        Integer id = 1;
+        Account account = mock(Account.class);
+        when(accountRepository.findById(id)).thenReturn(Optional.empty());
+        //When
+        boolean result = accountService.updateAccountById(id, account);
+        //Then
+        assertFalse(result);
+    }
+
+
+    @Test
+    public void should_return_true_when_call_updateAccountById_given_newAccount() {
+        //Given
+        Integer id = 1;
+        Account account = mock(Account.class);
+        Account newAccount = mock(Account.class);
+        Type type = new Type();
+        type.setType("type");
+
+        when(accountRepository.findById(id)).thenReturn(Optional.of(account));
+        when(newAccount.getAmount()).thenReturn(1.0);
+        when(newAccount.getType()).thenReturn(type);
+        when(typeService.findTypeByTypeName(type.getType())).thenReturn(type);
+        when(newAccount.getRemark()).thenReturn("remarks");
+
+        //When
+        boolean result = accountService.updateAccountById(id, newAccount);
+        //Then
+        assertTrue(result);
+    }
+
+
+
 }
