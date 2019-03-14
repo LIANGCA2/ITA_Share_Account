@@ -21,8 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -89,5 +88,38 @@ public class AccountServiceTestV2 {
         verify(accountRepository, times(0)).save(any());
     }
 
-    
+    @Test
+    public void should_return_null_when_call_getAccountById_given_no_exist_id() {
+        //given
+        Integer id = 1;
+        when(accountRepository.findById(id)).thenReturn(Optional.empty());
+        //when
+        Account account = accountService.getAccountById(id);
+        //then
+        assertNull(account);
+    }
+
+    @Test
+    public void should_return_true_when_call_updateAccountById_given_exist_id() {
+        //given
+        Integer id = 1;
+        Account account =AccountFactory.mockAccount(1,"1","1",new Date(),2.00,"0","");
+        when(accountRepository.findById(id)).thenReturn(Optional.empty());
+        //when
+        boolean result = accountService.updateAccountById(id, account);
+        //then
+        assertFalse(result);
+    }
+
+    @Test
+    public void should_return_true_when_call_updateAccountById_given_no_exist_id() {
+        //given
+        Integer id = 1;
+        Account account =AccountFactory.mockAccount(1,"1","1",new Date(),2.00,"0","");
+        when(accountRepository.findById(id)).thenReturn(Optional.of(account));
+        //when
+        boolean result = accountService.updateAccountById(id, account);
+        //then
+        assertTrue(result);
+    }
 }
