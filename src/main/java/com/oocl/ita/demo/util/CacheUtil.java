@@ -6,10 +6,17 @@ import java.util.List;
 import java.util.Map;
 
 public class CacheUtil {
-    public static final CacheUtil Instance = new CacheUtil();
+    private static CacheUtil Instance = null;
     private CacheUtil(){
         lastRefreshTime = System.currentTimeMillis();
         sessionCache = new HashMap<>();
+    }
+
+    public static CacheUtil getInstance(){
+        if(Instance == null){
+            Instance = new CacheUtil();
+        }
+        return Instance;
     }
 
     private Map<String, String> sessionCache;
