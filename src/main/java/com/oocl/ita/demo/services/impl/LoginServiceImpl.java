@@ -45,29 +45,30 @@ public class LoginServiceImpl implements LoginService {
                 user.setDate(new Date());
                 userRepository.save(user);
             }
-            CacheUtil.Instance.put(loginStatus, openId, sessionKey);
+            CacheUtil.getInstance().put(loginStatus, openId, sessionKey);
             return loginStatus;
         }
     }
 
     @Override
     public boolean checkLogin(String loginStatus) {
-        String value = CacheUtil.Instance.get(loginStatus);
+        String value = CacheUtil.getInstance().get(loginStatus);
         return StringUtils.isNotEmpty(value);
     }
 
     @Override
     public String getOpenId(String loginStatus) {
-        return CacheUtil.Instance.getOpenId(loginStatus);
+        return CacheUtil.getInstance().getOpenId(loginStatus);
     }
 
-    private void setDate(List<User> users) {
-        if(users == null || users.isEmpty()) return;
+    private boolean setDate(List<User> users) {
+        if(users == null || users.isEmpty()) return false;
         Date date = new Date();
         for(User user : users) {
             if(user.getDate() == null)
                 user.setDate(date);
         }
+        return true;
     }
 
 }

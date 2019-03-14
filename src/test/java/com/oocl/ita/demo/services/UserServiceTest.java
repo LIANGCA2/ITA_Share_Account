@@ -4,6 +4,7 @@ import com.oocl.ita.demo.entites.Account;
 import com.oocl.ita.demo.entites.User;
 import com.oocl.ita.demo.po.UserInfo;
 import com.oocl.ita.demo.repositories.UserRepository;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -136,5 +137,4 @@ public class UserServiceTest {
         assertEquals("1.00", result.getBalance());
         assertEquals("2", result.getRecords());
     }
-
 }
