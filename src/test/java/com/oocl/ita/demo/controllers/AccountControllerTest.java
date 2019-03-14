@@ -108,6 +108,9 @@ public class AccountControllerTest {
 
     private List<Account> mockAccountList() throws ParseException {
         Account account1 = mockAccount(1, "income", "收红包", mockAccountCreateDate("2019-01-01"), 12.0, "0", "Test1");
+        User user = new User();
+        user.setId(1);
+        account1.setUser(user);
         Account account2 = mockAccount(2, "outlay", "餐饮", mockAccountCreateDate("2019-03-12"), 10.0, "0", "Test2");
         Account account3 = mockAccount(3, "outlay", "购物", mockAccountCreateDate("2019-03-10"), 12.0, "0", "Test2");
         Account account4 = mockAccount(4, "income", "工资", mockAccountCreateDate("2019-03-10"), 5000.0, "0", "Test2");
